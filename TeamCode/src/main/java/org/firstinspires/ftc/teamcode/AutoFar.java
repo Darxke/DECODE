@@ -45,7 +45,7 @@ public class AutoFar extends LinearOpMode {
         rotate = hardwareMap.get(Servo.class, "rotate");
         kicker = hardwareMap.get(Servo.class, "kicker");
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
-        Pose2d start = new Pose2d(59, -12, Math.toRadians(35));
+        Pose2d start = new Pose2d(59, -12, Math.toRadians(165));
 
 
         // Your RR 1.0 drive (ctor with start pose, like in your file)
