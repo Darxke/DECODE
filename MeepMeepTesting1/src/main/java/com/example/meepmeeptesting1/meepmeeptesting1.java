@@ -1,6 +1,8 @@
 package com.example.meepmeeptesting1;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.ProfileAccelConstraint;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
@@ -15,10 +17,19 @@ public class meepmeeptesting1 {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        bot.runAction(bot.getDrive().actionBuilder(new Pose2d(59, 12, Math.toRadians(165)))
-                .strafeToLinearHeading(new Vector2d(36, 25), Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(36, 47), Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(59, 12), Math.toRadians(165))
+        bot.runAction(bot.getDrive().actionBuilder(new Pose2d(52, 52, Math.toRadians(415)))
+                .strafeToConstantHeading(new Vector2d(20, 20))
+                .strafeToLinearHeading(new Vector2d(1, 35), Math.toRadians(85))
+                .waitSeconds(1)
+                .strafeToConstantHeading(new Vector2d(8, 66),
+                        new TranslationalVelConstraint(25.0),
+                        new ProfileAccelConstraint(-10.0, 10.0))
+                .strafeToLinearHeading(new Vector2d(20, 20), Math.toRadians(45))
+                .splineTo(new Vector2d(-32, 45), Math.toRadians(85))
+                .waitSeconds(1)
+                .strafeToConstantHeading(new Vector2d(-32, 67),
+                        new TranslationalVelConstraint(25.0),
+                        new ProfileAccelConstraint(-10.0, 10.0))
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_BLACK)

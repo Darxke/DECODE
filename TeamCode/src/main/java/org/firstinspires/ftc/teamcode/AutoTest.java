@@ -25,12 +25,12 @@ import org.firstinspires.ftc.teamcode.MecanumDrive; // RR 1.0 quickstart drive
 @Config
 @Autonomous(name = "RRCloseBlue", group = "Autonomous")
 public class AutoTest extends LinearOpMode {
-    private DcMotorEx outtake;
+    private DcMotorEx rightOut;
+
+    private DcMotorEx leftOut;
     private DcMotorEx intake;
-    private Servo block1;
-    private Servo block2;
-    private Servo rotate;
-    private Servo kicker;
+    private Servo kick1;
+    private Servo kick2;
 
     private static double open1 = 0.4;
     private static double close1 = 0;
@@ -41,14 +41,15 @@ public class AutoTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         // Start pose — place robot here. Change if your field frame is different.
-        outtake = hardwareMap.get(DcMotorEx.class, "outtake");
+        rightOut = hardwareMap.get(DcMotorEx.class, "rightOut");
+        leftOut = hardwareMap.get(DcMotorEx.class, "leftOut");
         intake = hardwareMap.get(DcMotorEx.class, "intake");
-        block1 = hardwareMap.get(Servo.class, "block1");
-        block2 = hardwareMap.get(Servo.class, "block2");
-        rotate = hardwareMap.get(Servo.class, "rotate");
-        kicker = hardwareMap.get(Servo.class, "kicker");
-        intake.setDirection(DcMotorSimple.Direction.REVERSE);
-        Pose2d start = new Pose2d(-52, -52, Math.toRadians(45));
+        kick1 = hardwareMap.get(Servo.class, "kick1");
+        kick2 = hardwareMap.get(Servo.class, "kick2");
+        leftOut.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        rightOut.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        rightOut.setDirection(DcMotorSimple.Direction.REVERSE);
+        Pose2d start = new Pose2d(-52, -52, Math.toRadians(225));
 
 
         // Your RR 1.0 drive (ctor with start pose, like in your file)
@@ -56,87 +57,78 @@ public class AutoTest extends LinearOpMode {
 
         // === Path you requested ===
 
-        Action shoot = drive.actionBuilder(new Pose2d(-52,-52, Math.toRadians(45)))
+        Action shoot = drive.actionBuilder(new Pose2d(-52,-52, Math.toRadians(225)))
                 .strafeToConstantHeading(new Vector2d(-20,-20))
                 .build();
-        Action cycle = drive.actionBuilder(new Pose2d(-20, -20, Math.toRadians(45)))
-                .splineTo(
-                        new Vector2d(-14, -58),
-                        Math.toRadians(270),
-                        new TranslationalVelConstraint(20.0),
-                        new ProfileAccelConstraint(-10.0, 10.0)
-                )
-                .build();
-
-        Action shoot2 = drive.actionBuilder(new Pose2d(-14,-58, Math.toRadians(270)))
-                .strafeToLinearHeading(new Vector2d(-20,-20), Math.toRadians(50))
-                .build();
-        Action cycle2 = drive.actionBuilder(new Pose2d(-20,-20, Math.toRadians(50)))
-                .splineTo(
-                        new Vector2d(11, -34),
+        Action cycle = drive.actionBuilder(new Pose2d(-20, -20, Math.toRadians(225)))
+                .strafeToLinearHeading(
+                        new Vector2d(-1, -35),
                         Math.toRadians(265)
                 )
                 .waitSeconds(1)
                 .strafeToConstantHeading(
-                        new Vector2d(11,-58),
+                        new Vector2d(-8,-66),
+                        new TranslationalVelConstraint(25.0),
+                        new ProfileAccelConstraint(-10.0, 10.0)
+                )
+                .build();
+
+        Action shoot2 = drive.actionBuilder(new Pose2d(-8,-58, Math.toRadians(270)))
+                .strafeToLinearHeading(new Vector2d(-20,-20), Math.toRadians(225))
+                .build();
+        Action cycle2 = drive.actionBuilder(new Pose2d(-20,-20, Math.toRadians(225)))
+                .splineTo(
+                        new Vector2d(32, -45),
+                        Math.toRadians(265)
+                )
+                .waitSeconds(1)
+                .strafeToConstantHeading(
+                        new Vector2d(32,-67),
                         new TranslationalVelConstraint(25.0),
                         new ProfileAccelConstraint(-10.0, 10.0)
                 )
                 .build();
         waitForStart();
-        outtake.setPower(0.53);
-        rotate.setPosition(0.03);
+        leftOut.setVelocity(800);
+        rightOut.setVelocity(800);
         if (isStopRequested()) return;
+        intake.setPower(1);
 
         telemetry.addLine("Ready (RR 1.0). Set robot at start pose.");
         telemetry.update();
         Actions.runBlocking(shoot);
-        sleep(1750);
+        sleep(500);
         shooting();
-        intake.setPower(1);
-        rotate.setPosition(0.68);
-        sleep(1000);
+        sleep(500);
         //    shooting();
         Actions.runBlocking(cycle);
         sleep(750);
-        kicker.setPosition(0.5);
-        outtake.setPower(0.55);
-
+        leftOut.setVelocity(785);
+        rightOut.setVelocity(785);
         Actions.runBlocking(shoot2);
-        rotate.setPosition(1);
-        sleep(1000);
-        kicker.setPosition(1);
-        sleep(500);
-        kicker.setPosition(0.5);
-        sleep(1000);
-        rotate.setPosition(0.5);
-        sleep(1000);
-        kicker.setPosition(1);
-        sleep(500);
-        kicker.setPosition(0.5);
-        sleep(1000);
-        rotate.setPosition(0.03);
-        sleep(1000);
-        kicker.setPosition(1);
-        rotate.setPosition(0.68);
+        shooting();
         intake.setPower(1);
         sleep(500);
-        outtake.setPower(0);
+        leftOut.setPower(0);
+        rightOut.setPower(0);
         Actions.runBlocking(cycle2);
     }
     public void shooting(){
-        kicker.setPosition(1);
-        sleep(1000);
-        kicker.setPosition(0.5);
-        sleep(1000);
-        block2.setPosition(open2);
-        sleep(1000);
-        kicker.setPosition(1);
-        sleep(1000);
-        kicker.setPosition(0.5);
-        sleep(1000);
-        block1.setPosition(open1);
-        sleep(1000);
-        kicker.setPosition(1);
+        kick1.setPosition(0);
+        kick2.setPosition(1);
+        sleep(750);
+        kick2.setPosition(0);
+        sleep(1250);
+        kick2.setPosition(1);
+        sleep(750);
+        kick2.setPosition(0);
+        sleep(1250);
+        kick1.setPosition(1);
+        sleep(200);
+        kick1.setPosition(1);
+        kick2.setPosition(1);
+        sleep(750);
+        kick1.setPosition(0);
+        kick2.setPosition(0);
     }
 }

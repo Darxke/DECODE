@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.MecanumDrive; // RR 1.0 quickstart drive
 
 @Config
-@Autonomous(name = "AutoFarRed", group = "Autonomous")
+@Autonomous(name = "RRFarRed", group = "Autonomous")
 public class AutoFarRed extends LinearOpMode {
     private DcMotorEx rightOut;
 
@@ -39,7 +39,7 @@ public class AutoFarRed extends LinearOpMode {
     public void runOpMode() {
         // Start pose — place robot here. Change if your field frame is different.
         rightOut = hardwareMap.get(DcMotorEx.class, "rightOut");
-        leftOut = hardwareMap.get(DcMotorEx.class, "leftOuttake");
+        leftOut = hardwareMap.get(DcMotorEx.class, "leftOut");
         intake = hardwareMap.get(DcMotorEx.class, "intake");
         kick1 = hardwareMap.get(Servo.class, "kick1");
         kick2 = hardwareMap.get(Servo.class, "kick2");
@@ -61,11 +61,11 @@ public class AutoFarRed extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(35,20), Math.toRadians(180))
                 .build();
         Action out = drive.actionBuilder(new Pose2d(59,12, Math.toRadians(35)))
-                .strafeToLinearHeading(new Vector2d(30,20), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(35,20), Math.toRadians(90))
                 .build();
-        Action cycle = drive.actionBuilder(new Pose2d(30, 20, Math.toRadians(90)))
+        Action cycle = drive.actionBuilder(new Pose2d(35, 20, Math.toRadians(90)))
                 .strafeToLinearHeading(
-                        new Vector2d(30, 50),
+                        new Vector2d(35, 50),
                         Math.toRadians(90),
                         new TranslationalVelConstraint(20.0),
                         new ProfileAccelConstraint(-10.0, 10.0)
@@ -75,8 +75,8 @@ public class AutoFarRed extends LinearOpMode {
         telemetry.addLine("Ready (RR 1.0). Set robot at start pose.");
         telemetry.update();
         waitForStart();
-        leftOut.setVelocity(1450);
-        rightOut.setVelocity(1450);
+        leftOut.setVelocity(1100);
+        rightOut.setVelocity(1100);
         intake.setPower(1);
         if (isStopRequested()) return;
         sleep(3500);
@@ -87,8 +87,8 @@ public class AutoFarRed extends LinearOpMode {
         sleep(500);
         Actions.runBlocking(cycle);
         sleep(750);
-        leftOut.setVelocity(1450);
-        rightOut.setVelocity(1450);
+        leftOut.setVelocity(1100);
+        rightOut.setVelocity(1100);
         Actions.runBlocking(shoot);
         intake.setPower(1);
         shooting();
