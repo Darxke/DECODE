@@ -60,12 +60,12 @@ public class AutoFarRed extends LinearOpMode {
         Action parking = drive.actionBuilder(new Pose2d(59,12, Math.toRadians(165)))
                 .strafeToLinearHeading(new Vector2d(35,20), Math.toRadians(180))
                 .build();
-        Action out = drive.actionBuilder(new Pose2d(59,12, Math.toRadians(35)))
-                .strafeToLinearHeading(new Vector2d(35,20), Math.toRadians(90))
+        Action out = drive.actionBuilder(new Pose2d(59,12, Math.toRadians(165)))
+                .splineTo(new Vector2d(31,20), Math.toRadians(90))
                 .build();
-        Action cycle = drive.actionBuilder(new Pose2d(35, 20, Math.toRadians(90)))
+        Action cycle = drive.actionBuilder(new Pose2d(31, 23, Math.toRadians(90)))
                 .strafeToLinearHeading(
-                        new Vector2d(35, 50),
+                        new Vector2d(31, 58),
                         Math.toRadians(90),
                         new TranslationalVelConstraint(20.0),
                         new ProfileAccelConstraint(-10.0, 10.0)
@@ -75,8 +75,8 @@ public class AutoFarRed extends LinearOpMode {
         telemetry.addLine("Ready (RR 1.0). Set robot at start pose.");
         telemetry.update();
         waitForStart();
-        leftOut.setVelocity(1100);
-        rightOut.setVelocity(1100);
+        leftOut.setVelocity(1030);
+        rightOut.setVelocity(1030);
         intake.setPower(1);
         if (isStopRequested()) return;
         sleep(3500);
@@ -87,8 +87,8 @@ public class AutoFarRed extends LinearOpMode {
         sleep(500);
         Actions.runBlocking(cycle);
         sleep(750);
-        leftOut.setVelocity(1100);
-        rightOut.setVelocity(1100);
+        leftOut.setVelocity(1030);
+        rightOut.setVelocity(1030);
         Actions.runBlocking(shoot);
         intake.setPower(1);
         shooting();

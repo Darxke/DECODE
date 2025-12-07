@@ -53,21 +53,22 @@ public class AutoTestRed extends LinearOpMode {
                 .strafeToConstantHeading(new Vector2d(-20, 20))
                 .build();
         Action cycle = drive.actionBuilder(new Pose2d(-20, 20, Math.toRadians(-225)))
-                .strafeToLinearHeading(new Vector2d(5, 25), Math.toRadians(-265))
+                .strafeToLinearHeading(new Vector2d(-11, 40), Math.toRadians(-265))
                 .waitSeconds(1)
-                .strafeToConstantHeading(new Vector2d(5, 48),
+                .strafeToConstantHeading(new Vector2d(-10, 62),
                         new TranslationalVelConstraint(25.0),
                         new ProfileAccelConstraint(-10.0, 10.0))
                 .build();
 
-        Action shoot2 = drive.actionBuilder(new Pose2d(5, 48, Math.toRadians(-265)))
+        Action shoot2 = drive.actionBuilder(new Pose2d(-10, 48, Math.toRadians(-265)))
                 .strafeToLinearHeading(new Vector2d(-20, 20), Math.toRadians(-225))
                 .build();
 
         Action cycle2 = drive.actionBuilder(new Pose2d(-20, 20, Math.toRadians(-225)))
-                .splineTo(new Vector2d(34, 25), Math.toRadians(-265))
+                .strafeToLinearHeading(new Vector2d(12, 40), Math.toRadians(-265))
+
                 .waitSeconds(1)
-                .strafeToConstantHeading(new Vector2d(34, 50),
+                .strafeToConstantHeading(new Vector2d(11, 67),
                         new TranslationalVelConstraint(25.0),
                         new ProfileAccelConstraint(-10.0, 10.0))
                 .build();
@@ -89,8 +90,8 @@ public class AutoTestRed extends LinearOpMode {
         //    shooting();
         Actions.runBlocking(cycle);
         sleep(750);
-        leftOut.setVelocity(735);
-        rightOut.setVelocity(735);
+        leftOut.setVelocity(785);
+        rightOut.setVelocity(785);
         Actions.runBlocking(shoot2);
         shooting();
         intake.setPower(1);

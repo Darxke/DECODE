@@ -62,28 +62,28 @@ public class AutoTest extends LinearOpMode {
                 .build();
         Action cycle = drive.actionBuilder(new Pose2d(-20, -20, Math.toRadians(225)))
                 .strafeToLinearHeading(
-                        new Vector2d(-1, -35),
+                        new Vector2d(-11, -35),
                         Math.toRadians(265)
                 )
                 .waitSeconds(1)
                 .strafeToConstantHeading(
-                        new Vector2d(-8,-66),
+                        new Vector2d(-10,-66),
                         new TranslationalVelConstraint(25.0),
                         new ProfileAccelConstraint(-10.0, 10.0)
                 )
                 .build();
 
-        Action shoot2 = drive.actionBuilder(new Pose2d(-8,-58, Math.toRadians(270)))
+        Action shoot2 = drive.actionBuilder(new Pose2d(-10,-66, Math.toRadians(265)))
                 .strafeToLinearHeading(new Vector2d(-20,-20), Math.toRadians(225))
                 .build();
         Action cycle2 = drive.actionBuilder(new Pose2d(-20,-20, Math.toRadians(225)))
                 .splineTo(
-                        new Vector2d(32, -45),
+                        new Vector2d(12, -45),
                         Math.toRadians(265)
                 )
                 .waitSeconds(1)
                 .strafeToConstantHeading(
-                        new Vector2d(32,-67),
+                        new Vector2d(11,-67),
                         new TranslationalVelConstraint(25.0),
                         new ProfileAccelConstraint(-10.0, 10.0)
                 )
